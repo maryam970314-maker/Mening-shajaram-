@@ -1,0 +1,173 @@
+!DOCTYPE html>
+
+<html lang="uz">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Mening shajaram</title>
+
+<style>
+
+body {
+
+  font-family: Arial, sans-serif;
+
+  background: #f0f7ef;
+
+  color: #245333;
+
+  text-align: center;
+
+  padding: 20px;
+
+}
+
+h1 { color: #287548; }
+
+input, button {
+
+  padding: 12px;
+
+  margin: 6px;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+
+}
+
+button {
+
+  background: #287548;
+
+  color: white;
+
+  border: none;
+
+}
+
+.person {
+
+  background: white;
+
+  border: 2px solid #8aba96;
+
+  border-radius: 12px;
+
+  padding: 12px;
+
+  margin: 12px auto;
+
+  max-width: 260px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🌳 Mening shajaram</h1>
+
+<p>Oilamiz a'zolarini qo'shamiz</p>
+
+<input id="name" placeholder="Ismni kiriting">
+
+<br>
+
+<input id="relation" placeholder="Qarindoshligi (masalan: Bobo)">
+
+<br>
+
+<button onclick="addPerson()">+ A'zo qo'shish</button>
+
+<div id="tree"></div>
+
+<script>
+
+let people = JSON.parse(localStorage.getItem("shajara") || "[]");
+
+function showPeople() {
+
+  const tree = document.getElementById("tree");
+
+  tree.innerHTML = "";
+
+  people.forEach((p, i) => {
+
+    const card = document.createElement("div");
+
+    card.className = "person";
+
+    const title = document.createElement("h3");
+
+    title.textContent = "👤 " + p.name;
+
+    const relation = document.createElement("p");
+
+    relation.textContent = p.relation;
+
+    const btn = document.createElement("button");
+
+    btn.textContent = "O'chirish";
+
+    btn.onclick = () => {
+
+      people.splice(i, 1);
+
+      save();
+
+    };
+
+    card.append(title, relation, btn);
+
+    tree.appendChild(card);
+
+  });
+
+}
+
+function save() {
+
+  localStorage.setItem("shajara", JSON.stringify(people));
+
+  showPeople();
+
+}
+
+function addPerson() {
+
+  const name = document.getElementById("name").value.trim();
+
+  const relation = document.getElementById("relation").value.trim();
+
+  if (!name || !relation) {
+
+    alert("Iltimos, ism va qarindoshligini kiriting.");
+
+    return;
+
+  }
+
+  people.push({name, relation});
+
+  document.getElementById("name").value = "";
+
+  document.getElementById("relation").value = "";
+
+  save();
+
+}
+
+showPeople();
+
+</script>
+
+</body>
+
+</html>
